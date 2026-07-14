@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>חופשה באתונה — 14–20 יולי 2026</title>
+<style>
+  :root{
+    --blue:#1565c0;
+    --blue-light:#e8f2fd;
+    --blue-mid:#1e88e5;
+    --sea:#0d47a1;
+    --bg:#f7f9fc;
+    --card:#ffffff;
+    --text:#1a2433;
+    --muted:#5b6b7f;
+    --border:#e1e7ef;
+    --amber:#f5a623;
+    --green:#2e7d32;
+    --red:#c62828;
+    --radius:16px;
+    --shadow:0 4px 18px rgba(20,40,80,.09);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:"Segoe UI","Arial Hebrew","Noto Sans Hebrew",Arial,sans-serif;
+    direction:rtl;
+    line-height:1.55;
+    padding-bottom:60px;
+  }
+  header.site{
+    background:linear-gradient(135deg,var(--sea),var(--blue-mid));
+    color:#fff;
+    padding:26px 18px 20px;
+    text-align:center;
+    box-shadow:var(--shadow);
+  }
+  header.site h1{margin:0 0 6px;font-size:1.6rem;}
+  header.site p{margin:2px 0;opacity:.92;font-size:.95rem;}
+  nav.tabs{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    justify-content:center;
+    padding:14px 10px;
+    max-width:1100px;
+    margin:0 auto;
+  }
+  nav.tabs button{
+    border:1px solid var(--border);
+    background:#fff;
+    color:var(--text);
+    padding:9px 16px;
+    border-radius:999px;
+    cursor:pointer;
+    font-size:.92rem;
+    font-weight:600;
+    transition:.15s;
+  }
+  nav.tabs button.locked::after{content:" 🔒";}
+  nav.tabs button:hover{border-color:var(--blue-mid);}
+  nav.tabs button.active{
+    background:var(--blue-mid);
+    color:#fff;
+    border-color:var(--blue-mid);
+  }
+  main{max-width:1100px;margin:0 auto;padding:6px 16px 40px;}
+  .tab-panel{display:none;}
+  .tab-panel.active{display:block;animation:fade .2s ease;}
+  @keyframes fade{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
+
+  h2.section-title{font-size:1.25rem;margin:18px 0 12px;color:var(--sea);}
+  .sub-note{color:var(--muted);font-size:.88rem;margin:-4px 0 14px;}
+
+  /* day cards */
+  .day-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(270px,1fr));
+    gap:18px;
+    margin-top:10px;
+  }
+  .day-card{
+    position:relative;
+    border-radius:var(--radius);
+    overflow:hidden;
+    height:230px;
+    cursor:pointer;
+    box-shadow:var(--shadow);
+    border:1px solid var(--border);
+    background:#ccc;
+    transition:transform .15s;
+  }
+  .day-card:hover{transform:translateY(-3px);}
+  .day-card:focus-visible{outline:3px solid var(--blue-mid);}
+  .day-card img{
+    position:absolute;inset:0;
+    width:100%;height:100%;object-fit:cover;
+  }
+  .day-card .overlay{
+    position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(0,0,0,.05) 0%,rgba(0,0,0,.15) 40%,rgba(0,20,40,.82) 100%);
+    display:flex;flex-direction:column;justify-content:flex-end;
+    padding:14px;color:#fff;
+  }
+  .day-card .day-num{
+    position:absolute;top:12px;right:12px;
+    background:rgba(255,255,255,.92);
+    color:var(--sea);
+    font-weight:800;
+    font-size:.8rem;
+    padding:4px 10px;
+    border-radius:999px;
+  }
+  .day-card .date{font-size:.82rem;opacity:.9;margin-bottom:2px;}
+  .day-card .title{font-size:1.05rem;font-weight:700;margin-bottom:8px;}
+  .day-card .tags{display:flex;flex-wrap:wrap;gap:6px;}
+  .day-card .tags span{
+    background:rgba(255,255,255,.18);
+    border:1px solid rgba(255,255,255,.4);
+    font-size:.72rem;
+    padding:3px 9px;
+    border-radius:999px;
+    backdrop-filter:blur(2px);
+  }
+
+  /* modal */
+  .modal-backdrop{
+    display:none;
+    position:fixed;inset:0;
+    background:rgba(10,20,35,.55);
+    z-index:100;
+    align-items:flex-start;
+    justify-content:center;
+    padding:24px 12px;
+    overflow-y:auto;
+  }
+  .modal-backdrop.open{display:flex;}
+  .modal{
+    background:#fff;
+    border-radius:var(--radius);
+    max-width:640px;
+    width:100%;
+    overflow:hidden;
+    box-shadow:0 20px 60px rgba(0,0,0,.3);
+    margin-top:20px;
+  }
+  .modal-hero{height:160px;position:relative;}
+  .modal-hero img{width:100%;height:100%;object-fit:cover;}
+  .modal-hero .close-btn{
+    position:absolute;top:10px;left:10px;
+    background:rgba(255,255,255,.9);
+    border:none;
+    width:34px;height:34px;
+    border-radius:50%;
+    font-size:1.1rem;
+    cursor:pointer;
+  }
+  .modal-hero .modal-heading{
+    position:absolute;bottom:0;right:0;left:0;
+    background:linear-gradient(0deg,rgba(0,10,25,.85),transparent);
+    color:#fff;padding:14px;
+  }
+  .modal-body{padding:16px 18px 22px;}
+  .timeline-item{
+    display:flex;gap:12px;
+    padding:10px 0;
+    border-bottom:1px dashed var(--border);
+  }
+  .timeline-item:last-child{border-bottom:none;}
+  .timeline-item .time{
+    flex:0 0 auto;
+    font-weight:700;
+    color:var(--blue);
+    font-size:.88rem;
+    white-space:nowrap;
+    min-width:78px;
+  }
+  .timeline-item .desc{flex:1;font-size:.94rem;}
+  .timeline-item .links{margin-top:6px;display:flex;gap:8px;flex-wrap:wrap;}
+  .link-btn{
+    display:inline-flex;align-items:center;gap:4px;
+    font-size:.78rem;
+    padding:5px 10px;
+    border-radius:8px;
+    text-decoration:none;
+    font-weight:600;
+    border:1px solid var(--border);
+  }
+  .link-btn.maps{background:var(--blue-light);color:var(--blue);}
+  .link-btn.waze{background:#e6f7ee;color:var(--green);}
+  .link-btn.site{background:#fff4e2;color:#a15c00;}
+  .note-box{
+    background:var(--blue-light);
+    border-radius:10px;
+    padding:10px 12px;
+    font-size:.86rem;
+    margin:12px 0;
+    color:#0d3f70;
+  }
+
+  /* generic cards for restaurants/links */
+  .info-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;}
+  .info-card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:14px 16px;
+    box-shadow:var(--shadow);
+  }
+  .info-card h3{margin:0 0 8px;font-size:1rem;color:var(--sea);}
+  .item-row{
+    display:flex;justify-content:space-between;align-items:flex-start;
+    gap:8px;padding:7px 0;border-bottom:1px solid var(--border);
+    font-size:.88rem;
+  }
+  .item-row:last-child{border-bottom:none;}
+  .item-row .name{font-weight:600;}
+  .item-row .meta{color:var(--muted);font-size:.8rem;}
+  .item-row .btns{display:flex;gap:6px;flex-shrink:0;}
+  .mini-btn{
+    border:1px solid var(--border);
+    background:#fff;
+    border-radius:7px;
+    padding:4px 8px;
+    font-size:.75rem;
+    text-decoration:none;
+    color:var(--blue);
+  }
+
+  /* lock screen */
+  .lock-box{
+    max-width:380px;margin:40px auto;text-align:center;
+    background:#fff;border:1px solid var(--border);border-radius:var(--radius);
+    padding:28px 24px;box-shadow:var(--shadow);
+  }
+  .lock-box .icon{font-size:2.2rem;margin-bottom:6px;}
+  .lock-box input{
+    width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--border);
+    font-size:1.1rem;text-align:center;letter-spacing:4px;margin:14px 0 10px;
+  }
+  .lock-box button{
+    background:var(--blue-mid);color:#fff;border:none;padding:10px 22px;
+    border-radius:10px;font-weight:700;cursor:pointer;font-size:.95rem;
+  }
+  .lock-error{color:var(--red);font-size:.85rem;min-height:18px;}
+
+  /* checklist */
+  .checklist-group{margin-bottom:22px;}
+  .check-item{
+    display:flex;align-items:center;gap:10px;
+    background:var(--card);border:1px solid var(--border);
+    border-radius:12px;padding:10px 12px;margin-bottom:8px;
+    flex-wrap:wrap;
+  }
+  .check-item input[type=checkbox]{width:19px;height:19px;flex-shrink:0;}
+  .check-item .label{flex:1;min-width:180px;font-size:.92rem;}
+  .check-item.done .label{text-decoration:line-through;color:var(--muted);}
+  .status-select{
+    border:1px solid var(--border);border-radius:8px;padding:5px 8px;font-size:.8rem;background:#fff;
+  }
+  .status-select[data-status="שולם"]{background:#e6f7ee;color:var(--green);}
+  .status-select[data-status="ממתין"]{background:#fff4e2;color:#a15c00;}
+  .status-select[data-status="לביצוע"]{background:#fdeaea;color:var(--red);}
+
+  table.cost-table{width:100%;border-collapse:collapse;font-size:.9rem;background:#fff;border-radius:12px;overflow:hidden;box-shadow:var(--shadow);}
+  table.cost-table th,table.cost-table td{padding:10px 12px;text-align:right;border-bottom:1px solid var(--border);}
+  table.cost-table th{background:var(--blue-light);color:var(--sea);}
+  .badge{display:inline-block;padding:2px 9px;border-radius:999px;font-size:.72rem;font-weight:700;}
+  .badge.paid{background:#e6f7ee;color:var(--green);}
+  .badge.pending{background:#fff4e2;color:#a15c00;}
+
+  .warn-box{
+    background:#fff4e2;border:1px solid #f3d29a;color:#7a4a00;
+    border-radius:10px;padding:12px 14px;font-size:.88rem;margin:10px 0;
+  }
+  .kv-list{list-style:none;padding:0;margin:0;font-size:.92rem;}
+  .kv-list li{padding:6px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;}
+  .kv-list li b{color:var(--sea);}
+
+  footer.site{text-align:center;color:var(--muted);font-size:.82rem;padding:26px 10px 6px;}
+
+  @media (max-width:480px){
+    header.site h1{font-size:1.3rem;}
+    .day-card{height:200px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <h1>🇬🇷 תוכנית חופשה — אתונה, יוון</h1>
+  <p>14–20 יולי 2026 · 4 נפשות · Nefeli Villa Lagonisi · רכב שכור</p>
+  <p>🌡️ 32–34°C · 🌊 ים 25°C · ☀️ אפס גשם צפוי</p>
+</header>
+
+<nav class="tabs" id="tabsNav"></nav>
+
+<main id="mainContent"></main>
+
+<footer class="site">נסיעה טובה! 🌊☀️🇬🇷</footer>
+
+<div class="modal-backdrop" id="dayModalBackdrop">
+  <div class="modal" id="dayModal"></div>
+</div>
+
+<script>
+/* ---------------- נתונים (מתוך מסמך התוכנית המקורי) ---------------- */
+
+function mapsUrl(q){return "https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(q);}
+function wazeUrl(q){return "https://waze.com/ul?q="+encodeURIComponent(q)+"&navigate=yes";}
+
+function linkButtons(placeQuery, extra){
+  var html = '<div class="links">';
+  html += '<a class="link-btn maps" target="_blank" rel="noopener" href="'+mapsUrl(placeQuery)+'">📍 Google Maps</a>';
+  html += '<a class="link-btn waze" target="_blank" rel="noopener" href="'+wazeUrl(placeQuery)+'">🚗 Waze</a>';
+  if(extra){
+    extra.forEach(function(e){
+      html += '<a class="link-btn site" target="_blank" rel="noopener" href="'+e.url+'">🔗 '+e.label+'</a>';
+    });
+  }
+  html += '</div>';
+  return html;
+}
+
+var DAYS = [
+{
+  num:1, date:"14/7 שלישי", title:"יום הגעה + קניות ב-Sklavenitis",
+  tags:["✈️ נחיתה באתונה","🛒 סופרמרקט", "🍽️ ארוחת ערב בטברנה"],
+  img:"https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Athens%2C_Glyfada.jpg/1280px-Athens%2C_Glyfada.jpg",
+  imgCredit:"אזור הריביירה האתונאית — Wikimedia Commons",
+  items:[
+    {time:"14:30", text:"✈️ יציאה מחיפה — Air Haifa E2 703"},
+    {time:"17:25", text:"נחיתה בשדה התעופה אתונה", place:"Athens International Airport"},
+    {time:"17:30–18:15", text:"איסוף מזוודות + איסוף רכב (Enterprise, בין שערים 3–4)", place:"Enterprise Rent-A-Car Athens Airport"},
+    {time:"18:20", text:"🛒 עצירת קניות: Sklavenitis אנאוויסוס — ממש בדרך לווילה!", place:"Sklavenitis Anavissos", extra:[{label:"Google Maps רשמי",url:"https://maps.google.com/?cid=8482659148008608725"}]},
+    {time:"19:15", text:"נסיעה לווילה (~10 דקות מהסופר)"},
+    {time:"19:30–20:30", text:"בריכה פרטית + ארגון הווילה", place:"Nefeli Villa Lagonisi"},
+    {time:"20:30", text:"🍽️ ארוחת ערב: Kyra Popi Tavern — טברנה ים קלאסית, אווירה נעימה וכיפית | 4.5⭐ | 2 דקות מהווילה", place:"Kyra Popi Tavern Lagonisi"}
+  ]
+},
+{
+  num:2, date:"15/7 רביעי", title:"יום ים + ריביירה + חצי גמר מונדיאל 2 ⚽",
+  tags:["🏖️ חוף Varkiza","⚽ חצי גמר מונדיאל"],
+  img:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/VARKIZA_0007.JPG/1280px-VARKIZA_0007.JPG",
+  imgCredit:"חוף Varkiza — Wikimedia Commons",
+  items:[
+    {time:"09:00–13:00", text:"🏖️ Varkiza Resort Beach — ספורט ים, וולייבול, בר חוף", place:"Varkiza Resort Beach"},
+    {time:"13:00–15:30", text:"חזרה לווילה + מנוחה + בריכה"},
+    {time:"19:30", text:"🍽️ ארוחת ערב: Capri Ristorante — פיצה + סושי, 4.5⭐", place:"Capri Ristorante Lagonisi"},
+    {time:"22:00", text:"⚽ חצי גמר מונדיאל 2 — Athens Sports Bar / Molly Malone's Glyfada", place:"Molly Malone's Irish Pub Glyfada"}
+  ],
+  note:"🎸 אופציה נוספת לערב: EJEKT Festival — The Cure + Nothing But Thieves + Matt Berninger (פתיחת שערים 16:30, Telekom Center OAKA)"
+},
+{
+  num:3, date:"16/7 חמישי", title:"אקרופוליס + פלאקה + אגם וולינגמני",
+  tags:["🏛️ אקרופוליס","🛍️ פלאקה ומונסטיראקי","🌊 אגם תרמי"],
+  img:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Acropolis_of_Athens_01361.JPG/1280px-Acropolis_of_Athens_01361.JPG",
+  imgCredit:"האקרופוליס של אתונה — Wikimedia Commons",
+  ticketNote:"✅ כרטיסים הוזמנו! GetYourGuide — 1 מבוגר + 3 ילדים | מדריך חי | 08:00 | ₪228",
+  items:[
+    {time:"07:20", text:"יציאה מהווילה — חובה להקדים לפני החום! (40 דקות נסיעה)"},
+    {time:"08:00–10:30", text:"🏛️ האקרופוליס + פרתנון — עם מדריך חי | כרטיסים שולמו", place:"Acropolis of Athens", extra:[{label:"אתר רשמי",url:"https://eshop.culture.gr"}]},
+    {time:"10:30–12:00", text:"טיילת מלינה מרקורי → פלאקה → מונסטיראקי — קניות וסובנירים", place:"Dionysiou Areopagitou Street Athens"},
+    {time:"12:30–14:30", text:"🛍️ קניון Attica Mall — ממוזג, צהריים ומנוחה", place:"Attica Mall Athens"},
+    {time:"14:30–15:30", text:"חזרה לווילה + מנוחה"},
+    {time:"15:30", text:"🚗 יציאה לאגם וולינגמני (~20 דקות)"},
+    {time:"16:00–18:00", text:"🌊 אגם וולינגמני — מים תרמיים 22–29°C | €16 ביום חול | כניסה אחרונה 18:00!", place:"Lake Vouliagmeni", extra:[{label:"אתר רשמי",url:"https://www.vouliagmenilake.gr/"}]},
+    {time:"19:00", text:"חזרה לווילה"},
+    {time:"20:30", text:"🔥 מנגל בווילה — ארוחת ערב על האש"}
+  ]
+},
+{
+  num:4, date:"17/7 שישי", title:"פארק מים — Aquapolis 💦",
+  tags:["💦 17 מגלשות","✅ כרטיסים שולמו"],
+  img:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Water-Park-Slide-7955.jpg/1280px-Water-Park-Slide-7955.jpg",
+  imgCredit:"פארק מים — Wikimedia Commons (תמונה להמחשה)",
+  ticketNote:"✅ כרטיסים הוזמנו! 4 × €27 = €108 | Weekdays — תעריף יום חול",
+  items:[
+    {time:"09:00", text:"יציאה לספאטה (~30 דקות)"},
+    {time:"10:00–18:00", text:"💦 Aquapolis — 17 מגלשות | €27 לאדם | כרטיסים שולמו ✅", place:"Aquapolis Water Park Spata", extra:[{label:"אתר רשמי",url:"https://aquapolis.gr/en"}]},
+    {time:"18:30", text:"חזרה לווילה + מנוחה"},
+    {time:"20:30", text:"🔥 מנגל בווילה / Pita Lagonissi", place:"Pita Lagonissi"}
+  ],
+  note:"חלופה: Water Fun Park (קטן יותר, ~30 דקות)"
+},
+{
+  num:5, date:"18/7 שבת", title:"Designer Outlet + ערב מוזיקה חיה 🎵",
+  tags:["🛍️ Designer Outlet","🏖️ Varkiza / Tahiti","🎵 מוזיקה חיה"],
+  img:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Ermou_Street_at_night_on_November_18%2C_2020.jpg/1280px-Ermou_Street_at_night_on_November_18%2C_2020.jpg",
+  imgCredit:"רחוב קניות באתונה בערב — Wikimedia Commons (תמונה להמחשה)",
+  items:[
+    {time:"09:30–13:00", text:"🛍️ Designer Outlet Athens — Nike / Zara / H&M / Mango במחיר מוזל", place:"Designer Outlet Athens McArthurGlen", extra:[{label:"אתר רשמי",url:"https://www.mcarthurglen.com/en/outlets/gr/designer-outlet-athens/"}]},
+    {time:"13:00–14:00", text:"צהריים בתוך ה-Outlet"},
+    {time:"15:00–18:00", text:"🏖️ חוף Varkiza / Tahiti Beach Bar — DJ בשבת!", place:"Tahiti Beach Bar Varkiza"},
+    {time:"20:00", text:"🎵 Ouzeri Aegeon — ✅ הוזמן! | 4 סועדים | 20:00 | ללא חזיר וללא פירות ים | 📞 +30 229 107 6000", place:"Ouzeri Aegeon Athens", extra:[{label:"אתר",url:"https://www.lagonissiresort.gr/dining/athens-ouzeri/"}]}
+  ],
+  note:"חלופה: שייט פרטי מגליפדה במקום החוף"
+},
+{
+  num:6, date:"19/7 ראשון", title:"שוק מונסטיראקי + כף סוניו + דגים בלביריו 🏛️",
+  tags:["🛒 שוק פשפשים","🏛️ מקדש פוסידון","🐟 ארוחת דגים"],
+  img:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Cape_Sounion_and_temple_of_Poseidon.jpg/1280px-Cape_Sounion_and_temple_of_Poseidon.jpg",
+  imgCredit:"מקדש פוסידון, כף סוניו — Wikimedia Commons",
+  items:[
+    {time:"08:00", text:"יציאה לאתונה (40 דקות)"},
+    {time:"09:00–12:00", text:"🛒 שוק פשפשים מונסטיראקי — הכי עמוס ביום ראשון! סובנירים, וינטאג', עתיקות", place:"Monastiraki Flea Market Athens"},
+    {time:"12:00–13:00", text:"🥙 צהריים: טברנה בפלאקה", place:"Plaka Athens taverna"},
+    {time:"13:30", text:"חזרה לווילה + מנוחה + בריכה"},
+    {time:"15:30", text:"נסיעה לכף סוניו (~35 דקות)"},
+    {time:"15:30–16:15", text:"🤿 שנורקל — Legrena Beach (5 דקות מהמקדש) | מים צלולים, שרידי ספינת מלחמה", place:"Legrena Beach"},
+    {time:"16:30–17:30", text:"🏛️ מקדש פוסידון — €20 לאדם | 15 עמודי שיש על צוק 60 מ' | נוף לאיים", place:"Temple of Poseidon Cape Sounion", extra:[{label:"כרטיסים",url:"https://www.tickets-athens.com/temple-of-poseidon/"}]},
+    {time:"17:40", text:"🚗 נסיעה 10 דקות לעיירת הנמל לביריו"},
+    {time:"18:00–19:30", text:"🐟 ארוחת דגים: Tarsanas Fish Tavern, לביריו — אווירה מקומית אותנטית, שוק דגים, פירות ים טריים", place:"Tarsanas Fish Tavern Lavrio"},
+    {time:"20:30", text:"נסיעה חזרה לווילה (~35 דקות)"},
+    {time:"22:00", text:"⚽🏆 גמר המונדיאל — Molly Malone's Irish Pub, גליפדה (4.5⭐)", place:"Molly Malone's Irish Pub Glyfada"}
+  ]
+},
+{
+  num:7, date:"20/7 שני", title:"בוקר אחרון + המראה",
+  tags:["🏊 בריכה אחרונה","🛍️ זמן חופשי","✈️ המראה"],
+  img:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Commercial_Airplane_Wing_%28Starboard_side%29.jpg/1280px-Commercial_Airplane_Wing_%28Starboard_side%29.jpg",
+  imgCredit:"טיסה — Wikimedia Commons (תמונה להמחשה)",
+  items:[
+    {time:"08:00–10:30", text:"🏊 בריכה פרטית + ארוחת בוקר אחרונה"},
+    {time:"10:30–12:30", text:"סידור מזוודות + צ'ק-אאוט"},
+    {time:"13:00", text:"נסיעה לשדה התעופה + החזרת רכב (~20 דקות)", place:"Athens International Airport Enterprise Rent-A-Car"},
+    {time:"13:30–18:05", text:"⏳ זמן חופשי — Designer Outlet ממש ליד שדה התעופה", place:"Designer Outlet Athens McArthurGlen"},
+    {time:"18:05", text:"✈️ המראה — Air Haifa E2 703 לחיפה"},
+    {time:"20:50", text:"🏠 נחיתה חיפה"}
+  ]
+}
+];
+
+var RESTAURANTS = [
+  {group:"ממש ליד הווילה (5–10 דקות)", items:[
+    {name:"Barba Giorgis", meta:"מאכלי ים יווניים · 4.4⭐"},
+    {name:"Pita Lagonissi", meta:"גירוס מקומי · 4.3⭐ · פתוח עד 02:00"},
+    {name:"Capri Ristorante", meta:"פיצה + סושי · 4.5⭐"},
+    {name:"Wizz Lagonisi", meta:"בר אול-דיי · 4.4⭐"},
+    {name:"Kyra Popi Tavern", meta:"טברנה ים · 4.5⭐"}
+  ]},
+  {group:"טברנות מסורתיות עם מוזיקה (10–15 דקות)", items:[
+    {name:"Ouzeri Aegeon", meta:"מוזיקה חיה · 5.0⭐ · שישי–ראשון בלבד!", url:"https://www.lagonissiresort.gr/dining/athens-ouzeri/"},
+    {name:"Tavern Mythos", meta:"סרונידה · 4.5⭐ · 2,056 ביקורות", url:"http://www.mythostavern.gr/"},
+    {name:"O Christoforos", meta:"טברנה בשר · 4.2⭐ · 9,949 ביקורות"},
+    {name:"The Triangle", meta:"צלעות כבש · 4.4⭐ · 8,039 ביקורות"}
+  ]},
+  {group:"ברים לצפייה במונדיאל", items:[
+    {name:"Sports Bar Burger Glyfada", meta:"מסכים, המבורגרים · פתוח עד 02:00"},
+    {name:"Athens Sports Bar", meta:"4.3⭐ · 1,632 ביקורות · ליד האקרופוליס"},
+    {name:"The James Joyce Irish Pub", meta:"4.6⭐ · נוף לאקרופוליס"},
+    {name:"Molly Malone's Irish Pub", meta:"גליפדה · 4.5⭐ · לגמר המונדיאל!"}
+  ]},
+  {group:"🐟 טברנות דגים — כף סוניו + לביריו", items:[
+    {name:"Tarsanas Fish Tavern", meta:"לביריו · 10 דקות מהמקדש · שוק דגים אמיתי"},
+    {name:"Akrogiali", meta:"חוף סוניו · ממש ליד המקדש · נוף לים"},
+    {name:"Taverna Ginis", meta:"סוניו · מסורתית + דגים טריים · מחירים סבירים"}
+  ]}
+];
+
+var LINKS_SECTIONS = [
+  {title:"🎫 כרטיסים לקנייה מראש — חשוב!", note:"⚠️ יולי הוא עונת שיא — מומלץ לקנות כרטיסים לאקרופוליס לפחות 2–3 שבועות מראש!", items:[
+    {name:"🏛️ האקרופוליס — €30 למבוגר (אפריל–ספטמבר), כרטיס עם חלון כניסה לפי שעה", links:[
+      {label:"hhticket.gr (רשמי, ממשלת יוון)", url:"https://hhticket.gr/"},
+      {label:"GetYourGuide", url:"https://www.getyourguide.com/acropolis-l1491/"},
+      {label:"Tiqets", url:"https://www.tiqets.com/en/greece/athens/acropolis-c146/"}
+    ]},
+    {name:"🏛️ מקדש פוסידון, כף סוניו — €20 לאדם (קיץ), ניתן לקנות גם בכניסה", links:[
+      {label:"GetYourGuide", url:"https://www.getyourguide.com/temple-of-poseidon-l34461/"},
+      {label:"tickets-athens.com", url:"https://www.tickets-athens.com/temple-of-poseidon/"}
+    ]},
+    {name:"💦 Aquapolis — €26+ לאדם", links:[
+      {label:"אתר רשמי הזמנות", url:"https://atticapark.digitickets.co.uk/category/28000"},
+      {label:"aquapolis.gr", url:"https://aquapolis.gr/en/plan-your-visit/"}
+    ]},
+    {name:"🌊 אגם וולינגמני — הזמנה מקדימה", links:[{label:"vouliagmenilake.gr", url:"https://www.vouliagmenilake.gr/"}]},
+    {name:"🎸 EJEKT Festival — כ-€150 ליום, פריסייל בכמות מוגבלת", links:[
+      {label:"more.com", url:"https://www.more.com/gr-el"},
+      {label:"ejekt.gr", url:"https://ejekt.gr/en/"}
+    ]},
+    {name:"🛍️ Designer Outlet Athens — מידע ושעות", links:[{label:"mcarthurglen.com", url:"https://www.mcarthurglen.com/en/outlets/gr/designer-outlet-athens/"}]}
+  ]},
+  {title:"🚢 שייט + שנורקל", note:"כל האפשרויות כוללות ציוד שנורקל, עצירות שחייה במפרצים מוסתרים ומדריך. יוצאים ממרינת אלימוס — 15 דקות מהווילה.", items:[
+    {name:"GetYourGuide — שייט אתונה", links:[{label:"פתח", url:"https://www.getyourguide.com/athens-l91/athens-cruise-to-agistri-moni-aegina-with-lunch-drinks-t143481/"}]},
+    {name:"Viator — שייט פרטי", links:[{label:"פתח", url:"https://www.viator.com/Athens-tours/Speed-Boats/d496-tag21731"}]},
+    {name:"GetMyBoat", links:[{label:"פתח", url:"https://www.getmyboat.com/boat-rental/Athens--Greece/"}]},
+    {name:"iSpeed Boat Rentals", links:[{label:"פתח", url:"https://www.ispeed.gr/"}]},
+    {name:"Mamma Mia Sunset Cruise", links:[{label:"פתח", url:"https://www.getyourguide.com/athens-l91/athens-mamma-mia-sunset-cruise-with-welcome-drink-t640705/"}]},
+    {name:"שנורקל עצמאי (19/7): Legrena Beach — שרידי ספינת מלחמה, מים צלולים ושקטים"},
+    {name:"Sounion Beach — ממש מתחת למקדש פוסידון, חולי ונגיש"},
+    {name:"Limanakia / Kavouri — מפרצים קטנים ומוסתרים בדרך חזרה"}
+  ]},
+  {title:"🎭 תרבות, פסטיבלים ואירועים (14–19 יולי)", items:[
+    {name:"EJEKT Festival — 14/7: Florence + The Machine + Suede | 15/7: The Cure + Nothing But Thieves + Matt Berninger (שערים 16:30)", links:[{label:"ejekt.gr", url:"https://ejekt.gr/en/"}]},
+    {name:"Sweet Summer Sun Festival — 18/7 · Technopolis, גאזי · כניסה €35 · Eric Gales", links:[]},
+    {name:"פסטיבל אתונה-אפידאורוס", links:[{label:"אתר", url:"https://aefestival.gr/?lang=en"}]},
+    {name:"Open Air Ancient Greek Theatre — גג + נוף לאקרופוליס + 5 מחזות + כוס יין | ~$33 לאדם", links:[{label:"Viator", url:"https://www.viator.com/tours/Athens/Time-travel-The-Greek-way/d496-152603P1"}]},
+    {name:"תיאטרון ליקאבטוס 2026 — לוח אירועים (עד סוף יולי)", links:[{label:"פתח", url:"https://elculture.com/news/lycabettus-municipal-theatre-see-the-full-program-for-may-to-july-2026/"}]}
+  ]},
+  {title:"🛍️ קניות", items:[
+    {name:"Designer Outlet Athens (McArthurGlen) — פתוח א׳–ו׳ 10:00–21:00 | שבת 10:00–20:00 | ראשון סגור", links:[{label:"אתר", url:"https://www.mcarthurglen.com/en/outlets/gr/designer-outlet-athens/"}]},
+    {name:"Golden Hall Mall", links:[{label:"אתר", url:"https://goldenhall.gr/"}]},
+    {name:"The Mall Athens / Attica Mall — קניונים נוספים"},
+    {name:"רחוב ארמו (Ermou) — לב אתונה"},
+    {name:"גליפדה, Lazaraki St — שופינג + אווירת ערב"},
+    {name:"שוק פשפשים מונסטיראקי — סובנירים, וינטאג׳, עתיקות (ראשון הכי עמוס)"}
+  ]},
+  {title:"🛒 סופרמרקטים", items:[
+    {name:"Sklavenitis אנאוויסוס — 4.5⭐, 1,071 ביקורות · א׳–ו׳ 08:00–21:00, שבת 08:00–20:00 · ⚠️ סגור בימי ראשון!", links:[{label:"Google Maps", url:"https://maps.google.com/?cid=8482659148008608725"}]},
+    {name:"Sofronis — הכי קרוב לווילה, פתוח ראשון עד 17:00"}
+  ]},
+  {title:"🔗 לינה, טיסות והשכרת רכב", items:[
+    {name:"Nefeli Villa Lagonisi — Airbnb", links:[{label:"פתח", url:"https://www.airbnb.com/rooms/1470930730343689880"}]},
+    {name:"Air Haifa — אתר חברת התעופה", links:[{label:"פתח", url:"https://www.airhaifa.co.il"}]},
+    {name:"Enterprise Greece — שדה תעופה אתונה (מיקום ופרטים)", links:[{label:"פתח", url:"https://www.enterprise.com/en/car-rental-locations/gr/athens-el-venizelos-airport-lga5.html"}]},
+    {name:"Auto Europe — אתר ההזמנה", links:[{label:"פתח", url:"https://www.autoeurope.co.il"}]},
+    {name:"Kayak / Skyscanner / Wisecars / Rentalcars.com — השוואת מחירי רכב", links:[
+      {label:"Kayak", url:"https://www.kayak.com/Athens-Eleftherios-V-Airport-Car-Rentals.ATH.cap.ksp"},
+      {label:"Skyscanner", url:"https://www.skyscanner.com/car-rental-from/ath/car-rental-from-athens-international-airport.html"},
+      {label:"Wisecars", url:"https://www.wisecars.com/en-us/car-rental/athens/athens-airport"},
+      {label:"Rentalcars.com", url:"https://www.rentalcars.com/en/airport/gr/ath/"}
+    ]}
+  ]},
+  {title:"⚽ מונדיאל 2026 — לוח משחקים", note:"כל המשחקים מתחילים ב-22:00 שעון יוון (15:00 ET)", items:[
+    {name:"14/7: חצי גמר 1 — ארלינגטון, טקסס"},
+    {name:"15/7: חצי גמר 2 — אטלנטה, ג׳ורג׳יה"},
+    {name:"18/7: גמר ניחומים — מיאמי"},
+    {name:"19/7: 🏆 גמר המונדיאל — MetLife Stadium, ניו ג׳רזי (הפסקה: Shakira + Madonna + BTS)"},
+    {name:"לוח משחקי מונדיאל 2026 — ESPN", links:[{label:"פתח", url:"https://www.espn.com/soccer/story/_/id/48939282/2026-fifa-world-cup-fixtures-results-match-schedule-group-stage-knockout-rounds-bracket"}]}
+  ]}
+];
+
+/* ---------------- רינדור ---------------- */
+
+var TABS = [
+  {id:"itinerary", label:"לוז יומי", locked:false},
+  {id:"restaurants", label:"מסעדות", locked:false},
+  {id:"parking", label:"חניה", locked:false},
+  {id:"emergency", label:"חירום", locked:false},
+  {id:"links", label:"לינקים", locked:false},
+  {id:"logistics", label:"לוגיסטיקה", locked:true},
+  {id:"costs", label:"עלויות", locked:true},
+  {id:"checklist", label:"צ'קליסט", locked:true}
+];
+var PASSWORD = "261053";
+
+/* עטיפה בטוחה ל-sessionStorage/localStorage — בדפדפנים/הגדרות מסוימות (למשל פתיחה כקובץ מקומי) עצם הגישה לאובייקט האחסון עלולה לזרוק שגיאה. עטיפה זו מונעת קריסה של כל האתר במקרה כזה. */
+var safeStorage = {
+  get:function(kind, key){
+    try{ return (kind === "session" ? window.sessionStorage : window.localStorage).getItem(key); }catch(e){ return null; }
+  },
+  set:function(kind, key, val){
+    try{ (kind === "session" ? window.sessionStorage : window.localStorage).setItem(key, val); }catch(e){ /* אחסון חסום — מתעלמים בשקט */ }
+  }
+};
+
+var unlocked = safeStorage.get("session", "athens_unlocked") === "1";
+
+function el(html){
+  var d = document.createElement("div");
+  d.innerHTML = html.trim();
+  return d.firstChild;
+}
+
+function renderTabsNav(){
+  var nav = document.getElementById("tabsNav");
+  nav.innerHTML = "";
+  TABS.forEach(function(t){
+    var btn = document.createElement("button");
+    btn.textContent = t.label;
+    btn.className = t.locked ? "locked" : "";
+    btn.dataset.tab = t.id;
+    btn.addEventListener("click", function(){ showTab(t.id); });
+    nav.appendChild(btn);
+  });
+}
+
+function showTab(id){
+  TABS.forEach ? null : null;
+  var buttons = document.querySelectorAll("#tabsNav button");
+  buttons.forEach(function(b){ b.classList.toggle("active", b.dataset.tab === id); });
+  var main = document.getElementById("mainContent");
+  main.innerHTML = "";
+  var tabDef = TABS.filter(function(t){return t.id===id;})[0];
+  if(tabDef.locked && !unlocked){
+    main.appendChild(renderLockScreen(id));
+    return;
+  }
+  var renderers = {
+    itinerary: renderItinerary,
+    restaurants: renderRestaurants,
+    parking: renderParking,
+    emergency: renderEmergency,
+    links: renderLinks,
+    logistics: renderLogistics,
+    costs: renderCosts,
+    checklist: renderChecklist
+  };
+  main.appendChild(renderers[id]());
+  safeStorage.set("local", "athens_last_tab", id);
+}
+
+function renderLockScreen(targetId){
+  var wrap = el('<div class="lock-box"><div class="icon">🔒</div><h2 style="margin:6px 0;">אזור מוגן בסיסמה</h2><p style="color:var(--muted);font-size:.88rem;">הזינו את הסיסמה כדי לצפות בפרטים האישיים והרגישים</p><input type="password" inputmode="numeric" maxlength="10" placeholder="••••••" id="pwInput"><br><button id="pwSubmit">כניסה</button><div class="lock-error" id="pwError"></div></div>');
+  wrap.querySelector("#pwSubmit").addEventListener("click", function(){ tryUnlock(targetId, wrap); });
+  wrap.querySelector("#pwInput").addEventListener("keydown", function(e){ if(e.key==="Enter") tryUnlock(targetId, wrap); });
+  return wrap;
+}
+function tryUnlock(targetId, wrap){
+  var val = wrap.querySelector("#pwInput").value;
+  if(val === PASSWORD){
+    unlocked = true;
+    safeStorage.set("session", "athens_unlocked", "1");
+    showTab(targetId);
+  }else{
+    wrap.querySelector("#pwError").textContent = "סיסמה שגויה, נסו שוב";
+  }
+}
+
+function renderItinerary(){
+  var wrap = document.createElement("div");
+  wrap.appendChild(el('<h2 class="section-title">📅 לוז יומי מלא</h2>'));
+  wrap.appendChild(el('<p class="sub-note">לחצו על כל כרטיס יום כדי לראות את כל הפרטים, השעות והקישורים לניווט.</p>'));
+  var grid = el('<div class="day-grid"></div>');
+  DAYS.forEach(function(day){
+    var tagsHtml = day.tags.map(function(t){return "<span>"+t+"</span>";}).join("");
+    var card = el(
+      '<div class="day-card" tabindex="0" role="button" aria-label="פתח פרטי יום '+day.num+'">'+
+        '<img src="'+day.img+'" alt="'+day.title+'" loading="lazy">'+
+        '<div class="day-num">יום '+day.num+'</div>'+
+        '<div class="overlay">'+
+          '<div class="date">'+day.date+'</div>'+
+          '<div class="title">'+day.title+'</div>'+
+          '<div class="tags">'+tagsHtml+'</div>'+
+        '</div>'+
+      '</div>'
+    );
+    card.addEventListener("click", function(){ openDayModal(day); });
+    card.addEventListener("keydown", function(e){ if(e.key==="Enter" || e.key===" "){ e.preventDefault(); openDayModal(day); } });
+    grid.appendChild(card);
+  });
+  wrap.appendChild(grid);
+  return wrap;
+}
+
+function openDayModal(day){
+  var modal = document.getElementById("dayModal");
+  var itemsHtml = day.items.map(function(it){
+    var linksHtml = it.place ? linkButtons(it.place, it.extra) : "";
+    return '<div class="timeline-item"><div class="time">'+it.time+'</div><div class="desc">'+it.text+linksHtml+'</div></div>';
+  }).join("");
+  var ticketHtml = day.ticketNote ? '<div class="note-box">'+day.ticketNote+'</div>' : "";
+  var extraNoteHtml = day.note ? '<div class="note-box">'+day.note+'</div>' : "";
+  modal.innerHTML =
+    '<div class="modal-hero">'+
+      '<img src="'+day.img+'" alt="'+day.title+'">'+
+      '<button class="close-btn" id="closeModalBtn" aria-label="סגור">✕</button>'+
+      '<div class="modal-heading"><div style="font-size:.85rem;opacity:.9;">יום '+day.num+' · '+day.date+'</div><div style="font-size:1.15rem;font-weight:700;">'+day.title+'</div></div>'+
+    '</div>'+
+    '<div class="modal-body">'+ticketHtml+itemsHtml+extraNoteHtml+
+      '<p style="color:var(--muted);font-size:.72rem;margin-top:14px;">📷 '+(day.imgCredit||"")+'</p>'+
+    '</div>';
+  document.getElementById("dayModalBackdrop").classList.add("open");
+  document.getElementById("closeModalBtn").addEventListener("click", closeDayModal);
+}
+function closeDayModal(){
+  document.getElementById("dayModalBackdrop").classList.remove("open");
+}
+document.getElementById("dayModalBackdrop").addEventListener("click", function(e){
+  if(e.target === this) closeDayModal();
+});
+document.addEventListener("keydown", function(e){
+  if(e.key === "Escape") closeDayModal();
+});
+
+function renderRestaurants(){
+  var wrap = document.createElement("div");
+  wrap.appendChild(el('<h2 class="section-title">🍽️ מסעדות וטברנות</h2>'));
+  var grid = el('<div class="info-grid"></div>');
+  RESTAURANTS.forEach(function(g){
+    var card = el('<div class="info-card"><h3>'+g.group+'</h3></div>');
+    g.items.forEach(function(it){
+      var btns = '<div class="btns">';
+      btns += '<a class="mini-btn" target="_blank" rel="noopener" href="'+mapsUrl(it.name)+'">📍</a>';
+      btns += '<a class="mini-btn" target="_blank" rel="noopener" href="'+wazeUrl(it.name)+'">🚗</a>';
+      if(it.url){ btns += '<a class="mini-btn" target="_blank" rel="noopener" href="'+it.url+'">🔗</a>'; }
+      btns += '</div>';
+      var row = el('<div class="item-row"><div><div class="name">'+it.name+'</div><div class="meta">'+(it.meta||"")+'</div></div>'+btns+'</div>');
+      card.appendChild(row);
+    });
+    grid.appendChild(card);
+  });
+  wrap.appendChild(grid);
+  return wrap;
+}
+
+function renderParking(){
+  var wrap = document.createElement("div");
+  wrap.appendChild(el('<h2 class="section-title">🅿️ חניה</h2>'));
+  wrap.appendChild(el('<div class="note-box">במסמך התוכנית המקורי לא נמצא מידע ייעודי על חניה. אפשר להוסיף כאן בהמשך פרטי חניה ליד הווילה, האקרופוליס, החוף וכו׳ כשיהיו זמינים.</div>'));
+  return wrap;
+}
+
+function renderEmergency(){
+  var wrap = document.createElement("div");
+  wrap.appendChild(el('<h2 class="section-title">📞 מספרי חירום</h2>'));
+  var card = el('<div class="info-card"></div>');
+  card.appendChild(el('<div class="item-row"><div><div class="name">מוקד חירום בינלאומי AIG (24 שעות)</div></div><a class="mini-btn" href="tel:+97237619999">📞 +972-3-7619999</a></div>'));
+  card.appendChild(el('<div class="item-row"><div><div class="name">אתר AIG ישראל</div></div><a class="mini-btn" target="_blank" rel="noopener" href="https://www.aig.co.il">🔗 פתח</a></div>'));
+  wrap.appendChild(card);
+  wrap.appendChild(el('<div class="warn-box">⚠️ במקרה חירום רפואי ביוון: פנו לבית חולים, הציגו את מספר הפוליסה והתקשרו מיד למוקד AIG.<br>פרטי הפוליסה המלאים נמצאים בלשונית "לוגיסטיקה" המוגנת בסיסמה.</div>'));
+  return wrap;
+}
+
+function renderLinks(){
+  var wrap = document.createElement("div");
+  wrap.appendChild(el('<h2 class="section-title">🔗 לינקים שימושיים</h2>'));
+  LINKS_SECTIONS.forEach(function(sec){
+    wrap.appendChild(el('<h3 style="margin:20px 0 8px;color:var(--sea);">'+sec.title+'</h3>'));
+    if(sec.note){ wrap.appendChild(el('<div class="note-box">'+sec.note+'</div>')); }
+    var grid = el('<div class="info-grid"></div>');
+    var card = el('<div class="info-card" style="grid-column:1/-1;"></div>');
+    sec.items.forEach(function(it){
+      var linksHtml = "";
+      if(it.links && it.links.length){
+        linksHtml = '<div class="btns" style="display:flex;gap:6px;flex-wrap:wrap;">' + it.links.map(function(l){
+          return '<a class="mini-btn" target="_blank" rel="noopener" href="'+l.url+'">🔗 '+l.label+'</a>';
+        }).join("") + '</div>';
+      }
+      var row = el('<div class="item-row" style="align-items:center;"><div style="flex:1;"><div class="name" style="font-weight:500;">'+it.name+'</div></div>'+linksHtml+'</div>');
+      card.appendChild(row);
+    });
+    grid.appendChild(card);
+    wrap.appendChild(grid);
+  });
+  return wrap;
+}
+
+function renderLogistics(){
+  var wrap = document.createElement("div");
+  wrap.appendChild(el('<h2 class="section-title">🧳 לוגיסטיקה</h2>'));
+
+  wrap.appendChild(el('<h3 style="color:var(--sea);">✈️ פרטי הטיסה</h3>'));
+  wrap.appendChild(el(
+    '<ul class="kv-list">'+
+    '<li><b>חברת תעופה</b><span>Air Haifa | טיסה E2 703</span></li>'+
+    '<li><b>טיסה הלוך</b><span>יציאה חיפה 14:30 | נחיתה אתונה 17:25</span></li>'+
+    '<li><b>טיסה חזור</b><span>יציאה אתונה 18:05 | נחיתה חיפה 20:50</span></li>'+
+    '</ul>'
+  ));
+
+  wrap.appendChild(el('<h3 style="color:var(--sea);margin-top:18px;">🏡 לינה</h3>'));
+  wrap.appendChild(el(
+    '<ul class="kv-list">'+
+    '<li><b>וילה</b><span>Nefeli Family House 2</span></li>'+
+    '<li><b>לינק Booking</b><span><a target="_blank" rel="noopener" href="https://www.booking.com/hotel/gr/nefelyfamilyhouse2.he.html">פתח</a></span></li>'+
+    '<li><b>לינק Airbnb</b><span><a target="_blank" rel="noopener" href="https://www.airbnb.com/rooms/1470930730343689880">פתח</a></span></li>'+
+    '</ul>'
+  ));
+
+  wrap.appendChild(el('<h3 style="color:var(--sea);margin-top:18px;">🚗 השכרת רכב — Enterprise Greece (שולם)</h3>'));
+  wrap.appendChild(el(
+    '<ul class="kv-list">'+
+    '<li><b>חברה</b><span>Enterprise Greece | דרך Auto Europe</span></li>'+
+    '<li><b>שובר מס׳</b><span>633622</span></li>'+
+    '<li><b>אישור</b><span>ATHTRS-56125</span></li>'+
+    '<li><b>רכב</b><span>Suzuki Vitara A/C Manual | קטגוריה R IFMR</span></li>'+
+    '<li><b>איסוף</b><span>14/07/2026 — 17:30 | אולם הגעות, בין שערים 3–4</span></li>'+
+    '<li><b>החזרה</b><span>20/07/2026 — 17:30 | אותו מקום</span></li>'+
+    '<li><b>כיסוי</b><span>כולל CDW + TP</span></li>'+
+    '</ul>'
+  ));
+  wrap.appendChild(el('<div class="warn-box">⚠️ חובה להביא לתחנה: שובר מודפס + דרכון + רישיון ישראלי + רישיון בינלאומי + כרטיס אשראי (Visa/Mastercard) על שם הנהג כולל קוד סודי.<br>⚠️ הרכב ידני (Manual) — לא אוטומט. אין אפשרות לצאת מגבולות יוון.</div>'));
+
+  wrap.appendChild(el('<h3 style="color:var(--sea);margin-top:18px;">🛡️ ביטוח נסיעות — AIG</h3>'));
+  wrap.appendChild(el(
+    '<ul class="kv-list">'+
+    '<li><b>שם המבוטח</b><span>ITAY NAVAMA</span></li>'+
+    '<li><b>מספר ת״ז</b><span>🔒 שמור בקובץ המקומי בלבד</span></li>'+
+    '<li><b>מספר פוליסה</b><span>🔒 שמור בקובץ המקומי בלבד</span></li>'+
+    '<li><b>חברת ביטוח</b><span>AIG Israel</span></li>'+
+    '<li><b>יעד</b><span>יוון (Greece)</span></li>'+
+    '<li><b>תקופת כיסוי</b><span>14/07/2026 – 20/07/2026</span></li>'+
+    '<li><b>מוקד חירום AIG (24 שעות)</b><span><a href="tel:+97237619999">+972-3-7619999</a></span></li>'+
+    '</ul>'
+  ));
+  wrap.appendChild(el('<div class="warn-box">⚠️ שמרו מסמך זה נפרד מהדרכון — בארנק או בטלפון.</div>'));
+  return wrap;
+}
+
+function renderCosts(){
+  var wrap = document.createElement("div");
+  wrap.appendChild(el('<h2 class="section-title">💶 עלויות</h2>'));
+  wrap.appendChild(el('<p class="sub-note">הסכומים שלהלן מבוססים אך ורק על מה שצוין במסמך התוכנית המקורי. עלויות וילה/טיסות/ביטוח לא צוינו במסמך ולכן אינן מופיעות כאן.</p>'));
+
+  wrap.appendChild(el('<h3 style="color:var(--sea);">✅ שולם מראש</h3>'));
+  var t1 = el(
+    '<table class="cost-table"><thead><tr><th>פריט</th><th>סכום</th><th>סטטוס</th></tr></thead><tbody>'+
+    '<tr><td>השכרת רכב — Enterprise Greece</td><td>לא צוין סכום במסמך</td><td><span class="badge paid">שולם</span></td></tr>'+
+    '<tr><td>כרטיסי אקרופוליס (1 מבוגר + 3 ילדים, מדריך חי, GetYourGuide)</td><td>₪228</td><td><span class="badge paid">שולם</span></td></tr>'+
+    '<tr><td>כרטיסי Aquapolis (4 × €27)</td><td>€108</td><td><span class="badge paid">שולם</span></td></tr>'+
+    '</tbody></table>'
+  );
+  wrap.appendChild(t1);
+
+  wrap.appendChild(el('<h3 style="color:var(--sea);margin-top:20px;">⏳ עלויות צפויות / אופציונליות (טרם שולמו)</h3>'));
+  var t2 = el(
+    '<table class="cost-table"><thead><tr><th>פריט</th><th>מחיר</th><th>סטטוס</th></tr></thead><tbody>'+
+    '<tr><td>מקדש פוסידון, כף סוניו</td><td>€20 לאדם</td><td><span class="badge pending">בתשלום במקום</span></td></tr>'+
+    '<tr><td>אגם וולינגמני</td><td>€16 לאדם (יום חול)</td><td><span class="badge pending">בתשלום במקום</span></td></tr>'+
+    '<tr><td>EJEKT Festival (אופציונלי)</td><td>כ-€150 ליום לאדם</td><td><span class="badge pending">אופציונלי</span></td></tr>'+
+    '<tr><td>Sweet Summer Sun Festival (אופציונלי)</td><td>€35 כניסה</td><td><span class="badge pending">אופציונלי</span></td></tr>'+
+    '<tr><td>Open Air Ancient Greek Theatre (אופציונלי)</td><td>כ-$33 לאדם</td><td><span class="badge pending">אופציונלי</span></td></tr>'+
+    '</tbody></table>'
+  );
+  wrap.appendChild(t2);
+  return wrap;
+}
+
+var CHECKLIST_ITEMS = [
+  {id:"voucher-print", label:"שובר רכב מודפס (Enterprise / Auto Europe)"},
+  {id:"passports", label:"דרכונים לכל בני המשפחה"},
+  {id:"license-il", label:"רישיון נהיגה ישראלי"},
+  {id:"license-intl", label:"רישיון נהיגה בינלאומי"},
+  {id:"credit-card", label:"כרטיס אשראי על שם הנהג + קוד סודי"},
+  {id:"insurance-doc", label:"מסמך ביטוח AIG (שמור נפרד מהדרכון)"},
+  {id:"tix-acropolis", label:"כרטיסי אקרופוליס (✅ כבר הוזמנו)"},
+  {id:"tix-aquapolis", label:"כרטיסי Aquapolis (✅ כבר הוזמנו)"},
+  {id:"resv-aegeon", label:"הזמנת שולחן ב-Ouzeri Aegeon — 18/7, 20:00, 4 סועדים (✅ כבר הוזמן)"},
+  {id:"spf", label:"קרם הגנה SPF 50+"},
+  {id:"swim", label:"בגדי ים + מגבות לכולם"},
+  {id:"shopping-list", label:"רשימת קניות ל-Sklavenitis (מנגל, ירקות, גבינות, בוקר, שתייה)"},
+  {id:"sklavenitis-hours", label:"לזכור: Sklavenitis סגור בימי ראשון!"}
+];
+
+function loadChecklistState(){
+  try{ return JSON.parse(safeStorage.get("local", "athens_checklist") || "{}"); }catch(e){ return {}; }
+}
+function saveChecklistState(state){
+  safeStorage.set("local", "athens_checklist", JSON.stringify(state));
+}
+
+function renderChecklist(){
+  var wrap = document.createElement("div");
+  wrap.appendChild(el('<h2 class="section-title">✅ צ׳קליסט</h2>'));
+  wrap.appendChild(el('<p class="sub-note">הסימונים והסטטוסים נשמרים אוטומטית בדפדפן הזה (localStorage).</p>'));
+
+  var state = loadChecklistState();
+  var group = el('<div class="checklist-group"></div>');
+
+  CHECKLIST_ITEMS.forEach(function(item){
+    var itemState = state[item.id] || {done:false, status:"לביצוע"};
+    var row = el(
+      '<div class="check-item'+(itemState.done?' done':'')+'" data-id="'+item.id+'">'+
+        '<input type="checkbox" '+(itemState.done?'checked':'')+'>'+
+        '<div class="label">'+item.label+'</div>'+
+        '<select class="status-select" data-status="'+itemState.status+'">'+
+          '<option value="לביצוע"'+(itemState.status==="לביצוע"?" selected":"")+'>לביצוע</option>'+
+          '<option value="ממתין"'+(itemState.status==="ממתין"?" selected":"")+'>ממתין</option>'+
+          '<option value="שולם"'+(itemState.status==="שולם"?" selected":"")+'>שולם</option>'+
+        '</select>'+
+      '</div>'
+    );
+    var checkbox = row.querySelector("input[type=checkbox]");
+    var select = row.querySelector("select");
+    checkbox.addEventListener("change", function(){
+      row.classList.toggle("done", checkbox.checked);
+      var s = loadChecklistState();
+      s[item.id] = {done:checkbox.checked, status:select.value};
+      saveChecklistState(s);
+    });
+    select.addEventListener("change", function(){
+      select.dataset.status = select.value;
+      var s = loadChecklistState();
+      s[item.id] = {done:checkbox.checked, status:select.value};
+      saveChecklistState(s);
+    });
+    group.appendChild(row);
+  });
+
+  wrap.appendChild(group);
+  return wrap;
+}
+
+/* ---------------- init ---------------- */
+renderTabsNav();
+showTab("itinerary");
+</script>
+</body>
+</html>
