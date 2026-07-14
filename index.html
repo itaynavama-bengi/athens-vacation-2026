@@ -31,6 +31,7 @@
     direction:rtl;
     line-height:1.55;
     padding-bottom:60px;
+    overflow-x:hidden;
   }
   header.site{
     background:linear-gradient(135deg,var(--sea),var(--blue-mid));
@@ -213,14 +214,15 @@
   }
   .info-card h3{margin:0 0 8px;font-size:1rem;color:var(--sea);}
   .item-row{
-    display:flex;justify-content:space-between;align-items:flex-start;
+    display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;
     gap:8px;padding:7px 0;border-bottom:1px solid var(--border);
     font-size:.88rem;
   }
   .item-row:last-child{border-bottom:none;}
+  .item-row > div{min-width:0;overflow-wrap:break-word;}
   .item-row .name{font-weight:600;}
   .item-row .meta{color:var(--muted);font-size:.8rem;}
-  .item-row .btns{display:flex;gap:6px;flex-shrink:0;}
+  .item-row .btns{display:flex;flex-wrap:wrap;gap:6px;}
   .mini-btn{
     border:1px solid var(--border);
     background:#fff;
@@ -484,34 +486,12 @@ var LINKS_SECTIONS = [
     ]},
     {name:"🛍️ Designer Outlet Athens — מידע ושעות", links:[{label:"mcarthurglen.com", url:"https://www.mcarthurglen.com/en/outlets/gr/designer-outlet-athens/"}]}
   ]},
-  {title:"🚢 שייט + שנורקל", note:"כל האפשרויות כוללות ציוד שנורקל, עצירות שחייה במפרצים מוסתרים ומדריך. יוצאים ממרינת אלימוס — 15 דקות מהווילה.", items:[
-    {name:"GetYourGuide — שייט אתונה", links:[{label:"פתח", url:"https://www.getyourguide.com/athens-l91/athens-cruise-to-agistri-moni-aegina-with-lunch-drinks-t143481/"}]},
-    {name:"Viator — שייט פרטי", links:[{label:"פתח", url:"https://www.viator.com/Athens-tours/Speed-Boats/d496-tag21731"}]},
-    {name:"GetMyBoat", links:[{label:"פתח", url:"https://www.getmyboat.com/boat-rental/Athens--Greece/"}]},
-    {name:"iSpeed Boat Rentals", links:[{label:"פתח", url:"https://www.ispeed.gr/"}]},
-    {name:"Mamma Mia Sunset Cruise", links:[{label:"פתח", url:"https://www.getyourguide.com/athens-l91/athens-mamma-mia-sunset-cruise-with-welcome-drink-t640705/"}]},
-    {name:"שנורקל עצמאי (19/7): Legrena Beach — שרידי ספינת מלחמה, מים צלולים ושקטים"},
-    {name:"Sounion Beach — ממש מתחת למקדש פוסידון, חולי ונגיש"},
-    {name:"Limanakia / Kavouri — מפרצים קטנים ומוסתרים בדרך חזרה"}
-  ]},
   {title:"🎭 תרבות, פסטיבלים ואירועים (14–19 יולי)", items:[
     {name:"EJEKT Festival — 14/7: Florence + The Machine + Suede | 15/7: The Cure + Nothing But Thieves + Matt Berninger (שערים 16:30)", links:[{label:"ejekt.gr", url:"https://ejekt.gr/en/"}]},
     {name:"Sweet Summer Sun Festival — 18/7 · Technopolis, גאזי · כניסה €35 · Eric Gales", links:[]},
     {name:"פסטיבל אתונה-אפידאורוס", links:[{label:"אתר", url:"https://aefestival.gr/?lang=en"}]},
     {name:"Open Air Ancient Greek Theatre — גג + נוף לאקרופוליס + 5 מחזות + כוס יין | ~$33 לאדם", links:[{label:"Viator", url:"https://www.viator.com/tours/Athens/Time-travel-The-Greek-way/d496-152603P1"}]},
     {name:"תיאטרון ליקאבטוס 2026 — לוח אירועים (עד סוף יולי)", links:[{label:"פתח", url:"https://elculture.com/news/lycabettus-municipal-theatre-see-the-full-program-for-may-to-july-2026/"}]}
-  ]},
-  {title:"🛍️ קניות", items:[
-    {name:"Designer Outlet Athens (McArthurGlen) — פתוח א׳–ו׳ 10:00–21:00 | שבת 10:00–20:00 | ראשון סגור", links:[{label:"אתר", url:"https://www.mcarthurglen.com/en/outlets/gr/designer-outlet-athens/"}]},
-    {name:"Golden Hall Mall", links:[{label:"אתר", url:"https://goldenhall.gr/"}]},
-    {name:"The Mall Athens / Attica Mall — קניונים נוספים"},
-    {name:"רחוב ארמו (Ermou) — לב אתונה"},
-    {name:"גליפדה, Lazaraki St — שופינג + אווירת ערב"},
-    {name:"שוק פשפשים מונסטיראקי — סובנירים, וינטאג׳, עתיקות (ראשון הכי עמוס)"}
-  ]},
-  {title:"🛒 סופרמרקטים", items:[
-    {name:"Sklavenitis אנאוויסוס — 4.5⭐, 1,071 ביקורות · א׳–ו׳ 08:00–21:00, שבת 08:00–20:00 · ⚠️ סגור בימי ראשון!", links:[{label:"Google Maps", url:"https://maps.google.com/?cid=8482659148008608725"}]},
-    {name:"Sofronis — הכי קרוב לווילה, פתוח ראשון עד 17:00"}
   ]},
   {title:"🔗 לינה, טיסות והשכרת רכב", items:[
     {name:"Nefeli Villa Lagonisi — Airbnb", links:[{label:"פתח", url:"https://www.airbnb.com/rooms/1470930730343689880"}]},
@@ -698,21 +678,67 @@ function renderRestaurants(){
   return wrap;
 }
 
+var PARKING_SPOTS = [
+  {place:"🏛️ האקרופוליס", note:"אין חניון רשמי צמוד לכניסה. יש חניונים בתשלום במרחק הליכה קצרה מרחוב דיוניסיו אריופגיטו (למשל Parking Kostas ברחוב Aggelou Vlachou).", mapQuery:"Parking Aggelou Vlachou Athens near Acropolis"},
+  {place:"🏛️ מקדש פוסידון, כף סוניו", note:"חניה חינם בשטח פתוח ליד הכניסה. מתמלא מהר בשעות השקיעה — כדאי להגיע מוקדם או ביום חול.", mapQuery:"Temple of Poseidon parking Cape Sounion"},
+  {place:"🛒 שוק פשפשים מונסטיראקי", note:"אין חניון ייעודי לשוק עצמו — יש חניונים בתשלום ברחובות הסמוכים במרכז אתונה. כדאי לשקול להשאיר את הרכב ליד הווילה ולנסוע בתחבורה/ברגל באזור המרכז.", mapQuery:"parking near Monastiraki Athens"},
+  {place:"🛍️ Designer Outlet Athens (McArthurGlen, ספאטה)", note:"חניה מקורה בחינם צמודה לקניון.", mapQuery:"Designer Outlet Athens parking"},
+  {place:"🛍️ קניונים (Attica Mall / Golden Hall)", note:"בדרך כלל חניה בתשלום (סדר גודל €3–4.5 לשעה), לפעמים עם שעה-שעתיים חינם בקנייה. כדאי לבדוק בכניסה לחניון.", mapQuery:"Golden Hall Athens parking"},
+  {place:"🍽️ טברנות ליד הווילה (לגונისי/אנאוויסוס)", note:"אזור מגורים רגוע — בדרך כלל יש חניה חופשית ברחוב ליד רוב המסעדות.", mapQuery:"Lagonisi Anavyssos Greece"}
+];
+
 function renderParking(){
   var wrap = document.createElement("div");
   wrap.appendChild(el('<h2 class="section-title">🅿️ חניה</h2>'));
-  wrap.appendChild(el('<div class="note-box">במסמך התוכנית המקורי לא נמצא מידע ייעודי על חניה. אפשר להוסיף כאן בהמשך פרטי חניה ליד הווילה, האקרופוליס, החוף וכו׳ כשיהיו זמינים.</div>'));
+  wrap.appendChild(el('<div class="note-box">⚠️ המידע כאן לא מופיע במסמך התוכנית המקורי — נאסף מחיפוש כללי באינטרנט. מומלץ לוודא שעות ומחירים מעודכנים במקום.</div>'));
+  wrap.appendChild(el('<div class="note-box">💡 חניה בתשלום ברחוב באתונה פועלת בדרך כלל א׳–ו׳ 09:00–21:00 ושבת 09:00–16:00 — וחינם לגמרי בימי ראשון ובחגים.</div>'));
+  var grid = el('<div class="info-grid"></div>');
+  PARKING_SPOTS.forEach(function(spot){
+    var card = el('<div class="info-card" style="grid-column:1/-1;"></div>');
+    card.appendChild(el('<div class="item-row" style="align-items:center;"><div style="flex:1;"><div class="name" style="font-weight:600;">'+spot.place+'</div><div class="meta">'+spot.note+'</div></div>'+linkButtons(spot.mapQuery)+'</div>'));
+    grid.appendChild(card);
+  });
+  wrap.appendChild(grid);
   return wrap;
 }
 
 function renderEmergency(){
   var wrap = document.createElement("div");
   wrap.appendChild(el('<h2 class="section-title">📞 מספרי חירום</h2>'));
+
+  wrap.appendChild(el('<h3 style="color:var(--sea);">🛡️ ביטוח נסיעות — AIG</h3>'));
   var card = el('<div class="info-card"></div>');
   card.appendChild(el('<div class="item-row"><div><div class="name">מוקד חירום בינלאומי AIG (24 שעות)</div></div><a class="mini-btn" href="tel:+97237619999">📞 +972-3-7619999</a></div>'));
   card.appendChild(el('<div class="item-row"><div><div class="name">אתר AIG ישראל</div></div><a class="mini-btn" target="_blank" rel="noopener" href="https://www.aig.co.il">🔗 פתח</a></div>'));
   wrap.appendChild(card);
-  wrap.appendChild(el('<div class="warn-box">⚠️ במקרה חירום רפואי ביוון: פנו לבית חולים, הציגו את מספר הפוליסה והתקשרו מיד למוקד AIG.<br>פרטי הפוליסה המלאים נמצאים בלשונית "לוגיסטיקה" המוגנת בסיסמה.</div>'));
+  wrap.appendChild(el('<div class="warn-box">⚠️ במקרה חירום רפואי ביוון: פנו לבית חולים, הציגו את מספר הפוליסה והתקשרו מיד למוקד AIG.</div>'));
+
+  wrap.appendChild(el('<h3 style="color:var(--sea);margin-top:18px;">🚨 מספרי חירום כלליים ביוון</h3>'));
+  var card2 = el('<div class="info-card"></div>');
+  card2.appendChild(el('<div class="item-row"><div><div class="name">חירום כללי כלל-אירופי (משטרה/אמבולנס/כיבוי/חוף)</div></div><a class="mini-btn" href="tel:112">📞 112</a></div>'));
+  card2.appendChild(el('<div class="item-row"><div><div class="name">משטרה</div></div><a class="mini-btn" href="tel:100">📞 100</a></div>'));
+  card2.appendChild(el('<div class="item-row"><div><div class="name">אמבולנס (EKAB)</div></div><a class="mini-btn" href="tel:166">📞 166</a></div>'));
+  card2.appendChild(el('<div class="item-row"><div><div class="name">כיבוי אש</div></div><a class="mini-btn" href="tel:199">📞 199</a></div>'));
+  wrap.appendChild(card2);
+
+  wrap.appendChild(el('<h3 style="color:var(--sea);margin-top:18px;">🇮🇱 שגרירות ישראל באתונה</h3>'));
+  var card3 = el('<div class="info-card"></div>');
+  card3.appendChild(el('<div class="item-row"><div><div class="name">כתובת</div><div class="meta">1 Marathonodromon Street, Psychiko, Athens</div></div>'+linkButtons("Israeli Embassy Athens Marathonodromon Psychiko")+'</div>'));
+  card3.appendChild(el('<div class="item-row"><div><div class="name">טלפון</div><div class="meta">שעות קבלה: א׳–ה׳ 09:30–12:30</div></div><a class="mini-btn" href="tel:+302106705500">📞 +30 210 6705500</a></div>'));
+  wrap.appendChild(card3);
+
+  wrap.appendChild(el('<h3 style="color:var(--sea);margin-top:18px;">💊 בית מרקחת קרוב לווילה</h3>'));
+  var card4 = el('<div class="info-card"></div>');
+  card4.appendChild(el('<div class="item-row" style="align-items:center;"><div style="flex:1;"><div class="name">Φαρμακείο Γεωργία Μ. Σουκάκου (לגוניסי)</div><div class="meta">Leof. Kalyvion 7, Saronikos</div></div>'+linkButtons("Farmakeio Georgia Soukakou Leof Kalyvion 7 Saronikos")+'</div>'));
+  card4.appendChild(el('<div class="item-row" style="align-items:center;"><div style="flex:1;"><div class="name">Φαρμακείο Νικολόπουλος-Αμύγδαλος (אנאוויסוס)</div><div class="meta">📞 22910 39533</div></div>'+linkButtons("Farmakeio Nikolopoulos Amygdalos Anavyssos")+'</div>'));
+  wrap.appendChild(card4);
+
+  wrap.appendChild(el('<h3 style="color:var(--sea);margin-top:18px;">🏥 בית חולים קרוב יחסית לאזור הווילה</h3>'));
+  var card5 = el('<div class="info-card"></div>');
+  card5.appendChild(el('<div class="item-row" style="align-items:center;"><div style="flex:1;"><div class="name">בית חולים אסקלפיאון, וולה (Asklepieion General Hospital, Voula)</div><div class="meta">Vasileos Pavlou 1, Voula | 📞 210 895 8301</div></div>'+linkButtons("Asklepieion General Hospital Voula")+'</div>'));
+  wrap.appendChild(card5);
+
+  wrap.appendChild(el('<div class="note-box">⚠️ פרטי השגרירות/בית המרקחת/בית החולים לא מופיעים במסמך התוכנית המקורי — נאספו מחיפוש כללי באינטרנט. מומלץ לוודא שעות פעילות מעודכנות במקום.</div>'));
   return wrap;
 }
 
@@ -752,6 +778,8 @@ function renderLogistics(){
     '<li><b>טיסה חזור</b><span>יציאה אתונה 18:05 | נחיתה חיפה 20:50</span></li>'+
     '</ul>'
   ));
+  wrap.appendChild(el('<p style="font-size:.85rem;color:var(--muted);margin:6px 0 2px;">שדה התעופה אתונה — אותו מיקום גם בנחיתה (הלוך) וגם בהמראה (חזור):</p>'));
+  wrap.appendChild(el(linkButtons("Athens International Airport Eleftherios Venizelos")));
 
   wrap.appendChild(el('<h3 style="color:var(--sea);margin-top:18px;">🏡 לינה</h3>'));
   wrap.appendChild(el(
@@ -761,6 +789,8 @@ function renderLogistics(){
     '<li><b>לינק Airbnb</b><span><a target="_blank" rel="noopener" href="https://www.airbnb.com/rooms/1470930730343689880">פתח</a></span></li>'+
     '</ul>'
   ));
+  wrap.appendChild(el('<p style="font-size:.85rem;color:var(--muted);margin:6px 0 2px;">ניווט לווילה:</p>'));
+  wrap.appendChild(el(linkButtons("Nefeli Villa Lagonisi Greece")));
 
   wrap.appendChild(el('<h3 style="color:var(--sea);margin-top:18px;">🚗 השכרת רכב — Enterprise Greece (שולם)</h3>'));
   wrap.appendChild(el(
@@ -780,8 +810,7 @@ function renderLogistics(){
   wrap.appendChild(el(
     '<ul class="kv-list">'+
     '<li><b>שם המבוטח</b><span>ITAY NAVAMA</span></li>'+
-    '<li><b>מספר ת״ז</b><span>🔒 שמור בקובץ המקומי בלבד</span></li>'+
-    '<li><b>מספר פוליסה</b><span>🔒 שמור בקובץ המקומי בלבד</span></li>'+
+    '<li><b>מספר פוליסה</b><span>160332834526</span></li>'+
     '<li><b>חברת ביטוח</b><span>AIG Israel</span></li>'+
     '<li><b>יעד</b><span>יוון (Greece)</span></li>'+
     '<li><b>תקופת כיסוי</b><span>14/07/2026 – 20/07/2026</span></li>'+
@@ -795,14 +824,17 @@ function renderLogistics(){
 function renderCosts(){
   var wrap = document.createElement("div");
   wrap.appendChild(el('<h2 class="section-title">💶 עלויות</h2>'));
-  wrap.appendChild(el('<p class="sub-note">הסכומים שלהלן מבוססים אך ורק על מה שצוין במסמך התוכנית המקורי. עלויות וילה/טיסות/ביטוח לא צוינו במסמך ולכן אינן מופיעות כאן.</p>'));
+  wrap.appendChild(el('<p class="sub-note">הסכומים כאן מבוססים על מסמך התוכנית המקורי ועל מה שמסרת לי בנוסף.</p>'));
 
   wrap.appendChild(el('<h3 style="color:var(--sea);">✅ שולם מראש</h3>'));
   var t1 = el(
     '<table class="cost-table"><thead><tr><th>פריט</th><th>סכום</th><th>סטטוס</th></tr></thead><tbody>'+
+    '<tr><td>וילה — Nefeli Villa Lagonisi (לכל התקופה)</td><td>₪4,996</td><td><span class="badge paid">שולם</span></td></tr>'+
+    '<tr><td>טיסות — Air Haifa E2 703 (הלוך וחזור, 4 נפשות)</td><td>₪6,856</td><td><span class="badge paid">שולם</span></td></tr>'+
     '<tr><td>השכרת רכב — Enterprise Greece</td><td>לא צוין סכום במסמך</td><td><span class="badge paid">שולם</span></td></tr>'+
     '<tr><td>כרטיסי אקרופוליס (1 מבוגר + 3 ילדים, מדריך חי, GetYourGuide)</td><td>₪228</td><td><span class="badge paid">שולם</span></td></tr>'+
     '<tr><td>כרטיסי Aquapolis (4 × €27)</td><td>€108</td><td><span class="badge paid">שולם</span></td></tr>'+
+    '<tr><td>ביטוח נסיעות — AIG</td><td>סכום לא ידוע כרגע</td><td><span class="badge pending">לבירור</span></td></tr>'+
     '</tbody></table>'
   );
   wrap.appendChild(t1);
@@ -843,16 +875,23 @@ function loadChecklistState(){
 function saveChecklistState(state){
   safeStorage.set("local", "athens_checklist", JSON.stringify(state));
 }
+function loadCustomItems(){
+  try{ return JSON.parse(safeStorage.get("local", "athens_custom_checklist") || "[]"); }catch(e){ return []; }
+}
+function saveCustomItems(items){
+  safeStorage.set("local", "athens_custom_checklist", JSON.stringify(items));
+}
 
 function renderChecklist(){
   var wrap = document.createElement("div");
   wrap.appendChild(el('<h2 class="section-title">✅ צ׳קליסט</h2>'));
-  wrap.appendChild(el('<p class="sub-note">הסימונים והסטטוסים נשמרים אוטומטית בדפדפן הזה (localStorage).</p>'));
+  wrap.appendChild(el('<p class="sub-note">הסימונים והסטטוסים נשמרים אוטומטית בדפדפן הזה (localStorage). אפשר להוסיף פריטים משלכם בתחתית הרשימה.</p>'));
 
   var state = loadChecklistState();
+  var customItems = loadCustomItems();
   var group = el('<div class="checklist-group"></div>');
 
-  CHECKLIST_ITEMS.forEach(function(item){
+  function addRow(item, isCustom){
     var itemState = state[item.id] || {done:false, status:"לביצוע"};
     var row = el(
       '<div class="check-item'+(itemState.done?' done':'')+'" data-id="'+item.id+'">'+
@@ -863,6 +902,7 @@ function renderChecklist(){
           '<option value="ממתין"'+(itemState.status==="ממתין"?" selected":"")+'>ממתין</option>'+
           '<option value="שולם"'+(itemState.status==="שולם"?" selected":"")+'>שולם</option>'+
         '</select>'+
+        (isCustom ? '<button type="button" class="mini-btn" style="color:var(--red);" aria-label="מחק פריט">🗑️</button>' : '')+
       '</div>'
     );
     var checkbox = row.querySelector("input[type=checkbox]");
@@ -879,10 +919,45 @@ function renderChecklist(){
       s[item.id] = {done:checkbox.checked, status:select.value};
       saveChecklistState(s);
     });
+    if(isCustom){
+      row.querySelector("button").addEventListener("click", function(){
+        customItems = customItems.filter(function(ci){ return ci.id !== item.id; });
+        saveCustomItems(customItems);
+        row.remove();
+      });
+    }
     group.appendChild(row);
-  });
+  }
+
+  CHECKLIST_ITEMS.forEach(function(item){ addRow(item, false); });
+  customItems.forEach(function(item){ addRow(item, true); });
 
   wrap.appendChild(group);
+
+  var addForm = el(
+    '<div class="check-item" style="background:var(--blue-light);border-style:dashed;">'+
+      '<input type="text" id="newChecklistInput" placeholder="הוספת פריט חדש..." style="flex:1;min-width:160px;border:1px solid var(--border);border-radius:8px;padding:7px 10px;font-size:.9rem;font-family:inherit;">'+
+      '<button type="button" id="addChecklistBtn" class="mini-btn" style="background:var(--blue-mid);color:#fff;border-color:var(--blue-mid);">➕ הוסף</button>'+
+    '</div>'
+  );
+  wrap.appendChild(addForm);
+
+  var newItemInput = addForm.querySelector("#newChecklistInput");
+  function addNewItem(){
+    var text = newItemInput.value.trim();
+    if(!text) return;
+    var newItem = {id:"custom-"+Date.now(), label:text};
+    customItems.push(newItem);
+    saveCustomItems(customItems);
+    addRow(newItem, true);
+    newItemInput.value = "";
+    newItemInput.focus();
+  }
+  addForm.querySelector("#addChecklistBtn").addEventListener("click", addNewItem);
+  newItemInput.addEventListener("keydown", function(e){
+    if(e.key === "Enter"){ e.preventDefault(); addNewItem(); }
+  });
+
   return wrap;
 }
 
