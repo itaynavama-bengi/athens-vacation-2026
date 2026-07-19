@@ -424,8 +424,10 @@ var DAYS = [
     {time:"15:45–16:30", text:"🥾 טיילת קצרה בפארק הלאומי של סוניו — שבילים בין עצי זית פורחים לאורך הצוקים, תצפיות מרהיבות על המקדש מגובה 60 מ' (ליד Naos Café)", place:"Sounion National Park"},
     {time:"16:30–18:00", text:"🏛️ מקדש פוסידון — €20 לאדם | 15 עמודי שיש על צוק 60 מ' | נוף לאיים", place:"Temple of Poseidon Cape Sounion", extra:[{label:"כרטיסים",url:"https://www.tickets-athens.com/temple-of-poseidon/"}]},
     {time:"18:15", text:"🚗 נסיעה חזרה לווילה (~40–45 דקות)"},
-    {time:"19:00", text:"🏠 חזרה לווילה — מקלחת, מנוחה והתארגנות בלי לחץ לקראת הגמר"},
-    {time:"21:00", text:"🚗 יציאה לגליפדה (~35–40 דקות) לצפייה בגמר המונדיאל"},
+    {time:"19:00", text:"🏠 חזרה לווילה — מקלחת והתארגנות מהירה"},
+    {time:"19:45", text:"🚗 יציאה לגליפדה (~35–40 דקות)"},
+    {time:"20:20–21:15", text:"📸🌇 צילומי שקיעה במזח/מרינה של גליפדה — שקיעה בערך 20:30", place:"Glyfada Marina"},
+    {time:"21:30", text:"🍻 התיישבות בבר הספורט לפני הפתיחה", place:"Molly Malone's Irish Pub Glyfada"},
     {time:"22:00", text:"⚽🏆 גמר המונדיאל — Molly Malone's Irish Pub, גליפדה (4.5⭐)", place:"Molly Malone's Irish Pub Glyfada"}
   ],
   note:"שוק מונסטיראקי עבר ליום שבת בלילה (אחרי הארוחה בעיר) | היום כולו מרוכז בסוניו כדי לחזור לווילה עד 19:00 — לכן ביקור המקדש הוא באור יום ולא בשקיעה (שקיעה אמיתית ב-20:30ish); אם תעדיפו לתפוס שקיעה במקדש, אפשר להזיז הכל כשעה קדימה אבל אז החזרה לגמר תהיה בלחץ זמן"
@@ -844,11 +846,12 @@ function renderCosts(){
     '<tr><td>כרטיסי אקרופוליס (1 מבוגר + 3 ילדים, מדריך חי, GetYourGuide)</td><td>₪228</td><td><span class="badge paid">שולם</span></td></tr>'+
     '<tr><td>כרטיסי Aquapolis (4 × €27 = €108)</td><td>₪378 (לפי שער 3.5 ₪/€)</td><td><span class="badge paid">שולם</span></td></tr>'+
     '<tr><td>קניות סופרמרקט + בית מרקחת (Sklavenitis ועוד)</td><td>€300 ≈ ₪1,050</td><td><span class="badge paid">בוצע</span></td></tr>'+
+    '<tr><td>קניות נוספות בסופר (סבב שני)</td><td>€300 ≈ ₪1,050</td><td><span class="badge paid">בוצע</span></td></tr>'+
     '<tr><td>ביטוח נסיעות — AIG</td><td>סכום לא ידוע כרגע</td><td><span class="badge pending">לבירור</span></td></tr>'+
     '</tbody></table>'
   );
   wrap.appendChild(t1);
-  wrap.appendChild(el('<p class="sub-note" style="margin-top:10px;"><b>💰 סה"כ ששולם/הוצא עד כה (לא כולל ביטוח נסיעות):</b> ≈ ₪15,964 — כל סכום שהיה ביורו הומר לשקלים לפי שער 3.5 ₪/€.</p>'));
+  wrap.appendChild(el('<p class="sub-note" style="margin-top:10px;"><b>💰 סה"כ ששולם/הוצא עד כה (לא כולל ביטוח נסיעות):</b> ≈ ₪17,014 — כל סכום שהיה ביורו הומר לשקלים לפי שער 3.5 ₪/€.</p>'));
 
   wrap.appendChild(el('<h3 style="color:var(--sea);margin-top:20px;">⏳ עלויות צפויות / אופציונליות (טרם שולמו)</h3>'));
   var t2 = el(
